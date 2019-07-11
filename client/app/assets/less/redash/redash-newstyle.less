@@ -459,11 +459,6 @@ body {
   .th-title {
     cursor: move;
   }
-
-  #topRefreshIndicator {
-    transition-duration: 0s;
-    .topRefreshIndicator-mini();
-  }
 }
 
 .dashboard-header {
@@ -485,44 +480,25 @@ body {
   background-color: fade(@redash-gray, 12%) !important;
 }
 
-#topRefreshIndicator {
-  font-size: 18px;
-  color: #86a1af;
-  transition: all 100ms linear;
-  transition-delay: 150ms; // waits for widget-menu to fade out before moving over it
-  float: right;
-  margin-top: -8px;
-  margin-right: 2px;
-  transform: translateX(22px);
-
-  &:before {
+.widget-visualization[data-refreshing="true"] {
+  // top stripes
+  &:after {
+    --stripe-color: #e0e6eb;
     content: "";
     position: absolute;
     top: 0px;
-    left: -6px;
-    width: 24px;
-    background-color: #e8ecf0;
-    height: 24px;
-    border-radius: 50%;
-    transition: opacity 100ms linear;
-    transition-delay: 150ms; // waits for widget-menu to fade out before moving over it
-  }
-
-  // don't show on widget init
-  .widget-visualization:not([data-result-status]) & {
-    display: none;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background-image: repeating-linear-gradient( -45deg, transparent, transparent 3px, var(--stripe-color) 3px, var(--stripe-color) 13px);
+    background-size: 200%;
+    animation: candystripe 7s linear infinite;
   }
 }
 
-.topRefreshIndicator-mini() {
-  font-size: 14px;
-  transition-delay: 0s;
-  color: #bbbbbb;
-  transform: translateY(-1px);
-
-  &:before {
-    transition-delay: 0s;
-    opacity: 0;
+@keyframes candystripe {
+  100% {
+    background-position: 100% 100%;
   }
 }
 
@@ -568,10 +544,6 @@ body {
     .widget-menu-regular, .btn__refresh {
       opacity: 1 !important;
       transition: opacity 0.35s ease-in-out;
-    }
-
-    #topRefreshIndicator {
-      .topRefreshIndicator-mini();
     }
   }
 
